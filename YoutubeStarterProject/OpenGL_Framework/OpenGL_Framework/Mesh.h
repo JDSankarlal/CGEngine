@@ -2,8 +2,9 @@
 #include <string>
 #include <vector>
 #include <GL/glew.h>
-#include "Transform.h"
-class Mesh:public Transform
+
+
+class Mesh
 {
 public:
 	Mesh();
