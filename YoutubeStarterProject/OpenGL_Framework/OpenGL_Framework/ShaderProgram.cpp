@@ -13,7 +13,6 @@ ShaderProgram::~ShaderProgram()
 ShaderProgram::ShaderProgram()
 {
 }
-
 bool ShaderProgram::Load(const std::string &vertFile, const std::string &fragFile)
 {
 	_VertexShader - glCreateShader(GL_VERTEX_SHADER);
@@ -112,7 +111,6 @@ void ShaderProgram::AddAttribute(unsigned int index, const std::string &attribNa
 	glBindAttribLocation(_Program, index, attribName.c_str());
 
 }
-
 int ShaderProgram::GetAttribLocation(const std::string &attribName)
 {
 	return glGetAttribLocation(_Program, attribName.c_str());
@@ -121,7 +119,6 @@ int ShaderProgram::GetUniformLocation(const std::string &uniformName)
 {
 	return glGetAttribLocation(_Program, uniformName.c_str());
 }
-
 void ShaderProgram::SendUniform(const std::string &name, int integer)
 {
 	GLint location = GetUniformLocation(name);
@@ -165,16 +162,13 @@ void ShaderProgram::SendUniformMat4(const std::string &name, float *matrix, bool
 std::string ShaderProgram::ReadFile(const std::string &fileName) const
 {
 	std::ifstream inStream(fileName);
-
 	if (!inStream.good())
 	{
 		std::cout << "Shader file not found.\n";
 		return std::string();
 	}
-
 	std::string data(std::istreambuf_iterator<char>(inStream), (std::istreambuf_iterator<char>()));
 	return data;
-
 }
 bool ShaderProgram::CompileShader(GLuint shader) const
 {
@@ -188,29 +182,17 @@ void ShaderProgram::OutputShaderLog(GLuint shader) const
 {
 	std::vector<char> infoLog;
 	infoLog.resize(512);
-
 	GLint infoLen;
 	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-
 	glGetShaderInfoLog(shader, sizeof(char) * 512, &infoLen, &infoLog[0]);
-
 	std::cout << std::string(infoLog.begin(), infoLog.end()) << std::endl;
-
-
-
-
 }
 void ShaderProgram::OutputProgramLog() const
 {
 	std::vector<char> infoLog;
 	infoLog.resize(512);
-
 	GLint infoLen;
 	glGetProgramiv(_Program, GL_INFO_LOG_LENGTH, &infoLen);
-
 	glGetProgramInfoLog(_Program, sizeof(char) * 512, &infoLen, &infoLog[0]);
-
 	std::cout << std::string(infoLog.begin(), infoLog.end()) << std::endl;
-
-
 }
