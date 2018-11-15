@@ -8,12 +8,33 @@ Game::~Game()
 {
 	delete updateTimer;
 
+
+	PassThrough.UnLoad();
+	gameMesh.Unload();
 	//...
 }
 
 void Game::initializeGame()
 {
 	updateTimer = new Timer();
+
+	glEnable(GL_DEPTH_TEST);
+	if (!PassThrough.Load("./Assets/Shaders/PassThrough.vert", "./Assets/Shaders/PassThrough.frag"))
+	{
+		std::cout << "Shaders failed to initialize. \n" << std::endl;
+		//system("pause");
+		//exit(0);
+	}
+
+	if (!gameMesh.LoadFromFile("./Assets/Models/Monkey.obj"))
+	{
+		std::cout << "Model failed to load" << std::endl;
+		system("pause");
+		exit(0);
+	}
+
+	CameraTransform.Translate(vec3(0.0f,0.0f,5.0f));
+	CameraProjection.PerspectiveProjection(60.0f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,1.0f, 10000.0f);
 
 	//...
 }
@@ -34,6 +55,15 @@ void Game::draw()
 	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	PassThrough.Bind();
+	PassThrough.SendUniformMat4("uModel", MonkeyTransform.data, true);
+	PassThrough.SendUniformMat4("uView", CameraTransform.GetInverse().data, true);
+	PassThrough.SendUniformMat4("uProj", CameraProjection.data, true);
+	glBindVertexArray(gameMesh.VAO);
+	glDrawArrays(GL_TRIANGLES, 0, gameMesh.GetNumVertices());
+	glBindVertexArray(0);
+
+	PassThrough.UnBind();
 	//...
 
 	glutSwapBuffers();

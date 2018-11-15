@@ -1,11 +1,15 @@
 #pragma once
 #include <windows.h>
+#include "ShaderProgram.h"
+#include "Mesh.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-
 #include "Timer.h"
 
+#define WINDOW_WIDTH			800
+#define WINDOW_HEIGHT			600
+#define FRAMES_PER_SECOND		60
 class Game
 {
 public:
@@ -25,6 +29,11 @@ public:
 	/* Data Members */
 	Timer *updateTimer	= nullptr;
 	float TotalGameTime = 0.0f;
+	Mesh gameMesh;
+	ShaderProgram PassThrough;
+	mat4 CameraTransform;
+	mat4 CameraProjection;
+	mat4 MonkeyTransform;
 
 private:
 

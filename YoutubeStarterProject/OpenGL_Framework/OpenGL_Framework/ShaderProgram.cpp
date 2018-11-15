@@ -15,7 +15,7 @@ ShaderProgram::ShaderProgram()
 }
 bool ShaderProgram::Load(const std::string &vertFile, const std::string &fragFile)
 {
-	_VertexShader - glCreateShader(GL_VERTEX_SHADER);
+	_VertexShader = glCreateShader(GL_VERTEX_SHADER);
 	_FragShader = glCreateShader(GL_FRAGMENT_SHADER);
 	_Program = glCreateProgram();
 
@@ -39,7 +39,7 @@ bool ShaderProgram::Load(const std::string &vertFile, const std::string &fragFil
 		return false;
 	}
 
-	if (!CompileShader(_VertexShader))
+	if (!CompileShader(_FragShader))
 	{
 		std::cout << "Fragment shader failed to compile. \n";
 		OutputShaderLog(_FragShader);
@@ -62,6 +62,7 @@ bool ShaderProgram::Load(const std::string &vertFile, const std::string &fragFil
 		return false;
 	}
 
+	return true;
 }
 bool ShaderProgram::isLoaded() const
 {
@@ -152,12 +153,12 @@ void ShaderProgram::SendUniform(const std::string &name, const vec4 &vector)
 void ShaderProgram::SendUniformMat3(const std::string &name, float *matrix, bool transpose)
 {
 	GLint location = GetUniformLocation(name);
-	glUniformMatrix3fv(location, 1, transpose, matrix);
+	glUniformMatrix3fv(location, 1, !transpose, matrix);
 }
 void ShaderProgram::SendUniformMat4(const std::string &name, float *matrix, bool transpose)
 {
 	GLint location = GetUniformLocation(name);
-	glUniformMatrix4fv(location, 1, transpose, matrix);
+	glUniformMatrix4fv(location, 1, !transpose, matrix);
 }
 std::string ShaderProgram::ReadFile(const std::string &fileName) const
 {

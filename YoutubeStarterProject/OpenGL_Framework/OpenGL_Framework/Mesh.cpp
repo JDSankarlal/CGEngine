@@ -15,7 +15,6 @@ struct MeshFace
 		vertices[0] = 0;
 		vertices[1] = 0;
 		vertices[2] = 0;
-		// No need for UV yet
 
 		textureUVs[0] = 0;
 		textureUVs[1] = 0;
@@ -30,7 +29,6 @@ struct MeshFace
 		vertices[0] = v1;
 		vertices[1] = v2;
 		vertices[2] = v3;
-		// No need for UV yet
 
 		textureUVs[0] = t1;
 		textureUVs[1] = t2;
