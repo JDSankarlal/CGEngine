@@ -3,6 +3,8 @@
 
 #include "GL/glut.h"
 
+#pragma warning(push)
+#pragma warning(disable : 244)
 /*
  * timer class
  * - this lets us keep track of the elapsed time
@@ -49,3 +51,5 @@ public:
 private:
 	float currentTime, previousTime, elapsedTime;
 };
+
+#pragma warning(pop)

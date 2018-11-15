@@ -116,10 +116,13 @@ int ShaderProgram::GetAttribLocation(const std::string &attribName)
 {
 	return glGetAttribLocation(_Program, attribName.c_str());
 }
+
 int ShaderProgram::GetUniformLocation(const std::string &uniformName)
 {
-	return glGetAttribLocation(_Program, uniformName.c_str());
+		int tmp = glGetUniformLocation(_Program, uniformName.c_str());
+		return tmp;
 }
+
 void ShaderProgram::SendUniform(const std::string &name, int integer)
 {
 	GLint location = GetUniformLocation(name);

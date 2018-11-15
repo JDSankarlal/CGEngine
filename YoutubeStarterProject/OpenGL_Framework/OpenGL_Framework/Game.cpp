@@ -34,7 +34,7 @@ void Game::initializeGame()
 	}
 
 	CameraTransform.Translate(vec3(0.0f,0.0f,5.0f));
-	CameraProjection.PerspectiveProjection(60.0f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,1.0f, 10000.0f);
+	CameraProjection = mat4::PerspectiveProjection(60.0f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,1.0f, 10000.0f);
 
 	//...
 }
