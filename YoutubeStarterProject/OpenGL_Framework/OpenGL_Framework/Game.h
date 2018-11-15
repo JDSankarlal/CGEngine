@@ -31,6 +31,7 @@ public:
 	float TotalGameTime = 0.0f;
 	Mesh gameMesh;
 	ShaderProgram PassThrough;
+
 	mat4 CameraTransform;
 	mat4 CameraProjection;
 	mat4 MonkeyTransform;

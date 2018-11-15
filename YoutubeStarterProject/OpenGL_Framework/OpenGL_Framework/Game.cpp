@@ -22,8 +22,8 @@ void Game::initializeGame()
 	if (!PassThrough.Load("./Assets/Shaders/PassThrough.vert", "./Assets/Shaders/PassThrough.frag"))
 	{
 		std::cout << "Shaders failed to initialize. \n" << std::endl;
-		//system("pause");
-		//exit(0);
+		system("pause");
+		exit(0);
 	}
 
 	if (!gameMesh.LoadFromFile("./Assets/Models/Monkey.obj"))
