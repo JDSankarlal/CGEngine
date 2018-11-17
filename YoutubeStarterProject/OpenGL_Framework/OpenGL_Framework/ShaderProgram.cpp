@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-
+//Changing the program
 ShaderProgram::~ShaderProgram()
 {
 	if (_IsInit)
