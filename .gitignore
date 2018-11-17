@@ -63,7 +63,7 @@ StyleCopReport.xml
 *_i.h
 *.ilk
 *.meta
-*!YoutubeStarterProject/OpenGL_Framework/OpenGL_Framework/Assets/Models/*.obj
+*!/YoutubeStarterProject/OpenGL_Framework/OpenGL_Framework/Assets/Models/*.obj
 *.iobj
 *.pch
 *.pdb
