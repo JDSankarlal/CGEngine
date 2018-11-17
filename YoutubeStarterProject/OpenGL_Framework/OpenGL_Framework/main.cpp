@@ -13,7 +13,7 @@ Game *theGame;
  */
 void DisplayCallbackFunction(void)
 {
-	theGame->draw();
+	//theGame->draw();
 }
 
 /* function void KeyboardCallbackFunction(unsigned char, int, int)

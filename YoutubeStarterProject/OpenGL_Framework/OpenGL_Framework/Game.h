@@ -18,8 +18,8 @@ public:
 
 	void initializeGame();
 	void update();
-	void draw();
-
+	void draw(Mesh* meshToDraw);
+	void postProcessing();
 	/* input callback functions */
 	void keyboardDown(unsigned char key, int mouseX, int mouseY);
 	void keyboardUp(unsigned char key, int mouseX, int mouseY);

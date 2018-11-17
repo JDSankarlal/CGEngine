@@ -26,14 +26,17 @@ void Game::initializeGame()
 		exit(0);
 	}
 
-	if (!gameMesh.LoadFromFile("./Assets/Models/Monkey.obj"))
+	if (!gameMesh.LoadFromFile("./Assets/Models/Plane.obj"))
 	{
 		std::cout << "Model failed to load" << std::endl;
 		system("pause");
 		exit(0);
 	}
 
-	CameraTransform.Translate(vec3(0.0f,0.0f,5.0f));
+	CameraTransform.RotateX(-45.0f);
+	CameraTransform.RotateY(45.0f);
+	//CameraTransform.RotateZ(45.0f);
+	CameraTransform.Translate(vec3(1.0f,3.0f,1.0f));
 	CameraProjection = mat4::PerspectiveProjection(60.0f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,1.0f, 10000.0f);
 
 	//...
@@ -48,9 +51,19 @@ void Game::update()
 	TotalGameTime += deltaTime;
 
 	//...
+	postProcessing();
 }
 
-void Game::draw()
+void Game::draw(Mesh* meshToDraw)
+{
+	glBindVertexArray(meshToDraw->VAO);
+	glDrawArrays(GL_TRIANGLES, 0, meshToDraw->GetNumVertices());
+	glBindVertexArray(0);
+
+	glutSwapBuffers();
+}
+
+void Game::postProcessing()
 {
 	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -59,14 +72,18 @@ void Game::draw()
 	PassThrough.SendUniformMat4("uModel", MonkeyTransform.data, true);
 	PassThrough.SendUniformMat4("uView", CameraTransform.GetInverse().data, true);
 	PassThrough.SendUniformMat4("uProj", CameraProjection.data, true);
-	glBindVertexArray(gameMesh.VAO);
-	glDrawArrays(GL_TRIANGLES, 0, gameMesh.GetNumVertices());
-	glBindVertexArray(0);
-
+	PassThrough.SendUniform("u_time", TotalGameTime);
+	
+	draw(&gameMesh);
+	
 	PassThrough.UnBind();
-	//...
 
-	glutSwapBuffers();
+	//water.bind()
+	///send uniforms
+
+	//draw(plane);
+
+	//water.unbind();
 }
 
 void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
