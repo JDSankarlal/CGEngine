@@ -12,7 +12,9 @@ out vec3 normal;
 out vec2 texcoord;
 void main()
 {
+	vec3 _vert = in_vert;
+	_vert.y = texture(heightMap,in_uv).r*1.0f;
+	gl_Position = uProj * uView * uModel * vec4(_vert,1.0);
 	texcoord = in_uv;
-	gl_Position = uProj * uView * uModel * vec4(in_vert,1.0);
-	normal = in_normal;
+	//normal = in_normal;
 }

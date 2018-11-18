@@ -41,7 +41,7 @@ void Game::initializeGame()
 		exit(0);
 	}
 
-	if (!heightMap.Load("./Assets/Textures/heightmap.jpg"))
+	if (!heightMap.Load("./Assets/Textures/terrain.png"))
 	{
 		system("pause");
 		exit(0);
@@ -68,7 +68,7 @@ void Game::initializeGame()
 	CameraTransform.RotateX(-45.0f);
 	CameraTransform.RotateY(45.0f);
 	//CameraTransform.RotateZ(45.0f);
-	CameraTransform.Translate(vec3(1.0f,1.0f,1.0f));
+	CameraTransform.Translate(vec3(1.0f,1.5f,1.0f));
 	CameraProjection = mat4::PerspectiveProjection(60.0f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,1.0f, 10000.0f);
 
 	//...
