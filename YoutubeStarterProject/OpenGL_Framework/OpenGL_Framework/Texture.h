@@ -14,7 +14,7 @@ public:
 	void UnBind();
 
 	// - Handle to the texture object
-	GLuint TextObj = 0;
+	GLuint TextObj=0;
 private:
 
 };

@@ -1,7 +1,6 @@
 #version 420
 
-uniform sampler2D uTex;
-uniform sampler2D uTex2;
+layout (binding = 1)uniform sampler2D uTex;
 
 out vec4 outColor;
 in vec3 normal;

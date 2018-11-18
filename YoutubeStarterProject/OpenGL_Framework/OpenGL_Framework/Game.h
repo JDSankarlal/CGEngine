@@ -33,9 +33,13 @@ public:
 	Mesh gameMesh;
 	ShaderProgram PassThrough;
 	Texture grassTexture;
+	Texture sandTexture;
+	Texture rockTexture;
+	Texture waterTexture;
+	Texture heightMap;
 	mat4 CameraTransform;
 	mat4 CameraProjection;
-	mat4 MonkeyTransform;
+	mat4 planeTransform;
 
 private:
 

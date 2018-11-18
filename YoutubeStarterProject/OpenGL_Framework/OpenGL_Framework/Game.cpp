@@ -41,6 +41,29 @@ void Game::initializeGame()
 		exit(0);
 	}
 
+	if (!heightMap.Load("./Assets/Textures/heightmap.jpg"))
+	{
+		system("pause");
+		exit(0);
+	}
+
+	if (!waterTexture.Load("./Assets/Textures/water.png"))
+	{
+		system("pause");
+		exit(0);
+	}
+
+	if (!sandTexture.Load("./Assets/Textures/sand.jpg"))
+	{
+		system("pause");
+		exit(0);
+	}
+
+	if (!rockTexture.Load("./Assets/Textures/rock.jpg"))
+	{
+		system("pause");
+		exit(0);
+	}
 
 	CameraTransform.RotateX(-45.0f);
 	CameraTransform.RotateY(45.0f);
@@ -78,14 +101,32 @@ void Game::postProcessing()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	PassThrough.Bind();
-	PassThrough.SendUniformMat4("uModel", MonkeyTransform.data, true);
+	PassThrough.SendUniformMat4("uModel", planeTransform.data, true);
 	PassThrough.SendUniformMat4("uView", CameraTransform.GetInverse().data, true);
 	PassThrough.SendUniformMat4("uProj", CameraProjection.data, true);
 	PassThrough.SendUniform("u_time", TotalGameTime);
-	
+
+	glActiveTexture(GL_TEXTURE0);
+	heightMap.Bind();
+
+	glActiveTexture(GL_TEXTURE1);
 	grassTexture.Bind();
+
+	glActiveTexture(GL_TEXTURE2);
+	rockTexture.Bind();
+	
+	glActiveTexture(GL_TEXTURE3);
+	waterTexture.Bind();
+	
+	glActiveTexture(GL_TEXTURE4);
+	sandTexture.Bind();
+
 	draw(&gameMesh);
+	heightMap.UnBind();
 	grassTexture.UnBind();
+	rockTexture.UnBind();
+	waterTexture.UnBind();
+	sandTexture.UnBind();
 	PassThrough.UnBind();
 
 	//water.bind()
