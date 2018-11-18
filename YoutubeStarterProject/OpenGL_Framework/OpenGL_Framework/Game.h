@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "ShaderProgram.h"
 #include "Mesh.h"
+#include "Texture.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -31,7 +32,7 @@ public:
 	float TotalGameTime = 0.0f;
 	Mesh gameMesh;
 	ShaderProgram PassThrough;
-
+	Texture grassTexture;
 	mat4 CameraTransform;
 	mat4 CameraProjection;
 	mat4 MonkeyTransform;

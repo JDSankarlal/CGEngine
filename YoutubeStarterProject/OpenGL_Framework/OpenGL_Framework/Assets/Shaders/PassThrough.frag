@@ -1,8 +1,12 @@
 #version 420
 
- out vec4 outColor;
+uniform sampler2D uTex;
+uniform sampler2D uTex2;
 
+out vec4 outColor;
+in vec3 normal;
+in vec2 texcoord;
 void main()
 {
-	outColor = vec4(1.0f, 0.9f, 0.2f, 1.0f);
+	outColor = texture(uTex, texcoord);
 }

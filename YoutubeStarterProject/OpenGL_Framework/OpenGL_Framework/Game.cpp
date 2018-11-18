@@ -11,6 +11,7 @@ Game::~Game()
 
 	PassThrough.UnLoad();
 	gameMesh.Unload();
+	grassTexture.Unload();
 	//...
 }
 
@@ -19,6 +20,7 @@ void Game::initializeGame()
 	updateTimer = new Timer();
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 	if (!PassThrough.Load("./Assets/Shaders/PassThrough.vert", "./Assets/Shaders/PassThrough.frag"))
 	{
 		std::cout << "Shaders failed to initialize. \n" << std::endl;
@@ -33,10 +35,17 @@ void Game::initializeGame()
 		exit(0);
 	}
 
+	if (!grassTexture.Load("./Assets/Textures/grass.jpg"))
+	{
+		system("pause");
+		exit(0);
+	}
+
+
 	CameraTransform.RotateX(-45.0f);
 	CameraTransform.RotateY(45.0f);
 	//CameraTransform.RotateZ(45.0f);
-	CameraTransform.Translate(vec3(1.0f,3.0f,1.0f));
+	CameraTransform.Translate(vec3(1.0f,1.0f,1.0f));
 	CameraProjection = mat4::PerspectiveProjection(60.0f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,1.0f, 10000.0f);
 
 	//...
@@ -74,8 +83,9 @@ void Game::postProcessing()
 	PassThrough.SendUniformMat4("uProj", CameraProjection.data, true);
 	PassThrough.SendUniform("u_time", TotalGameTime);
 	
+	grassTexture.Bind();
 	draw(&gameMesh);
-	
+	grassTexture.UnBind();
 	PassThrough.UnBind();
 
 	//water.bind()
