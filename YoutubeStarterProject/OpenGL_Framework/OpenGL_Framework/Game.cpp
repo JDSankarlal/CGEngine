@@ -12,23 +12,46 @@ Game::~Game()
 	PassThrough.UnLoad();
 	gameMesh.Unload();
 	grassTexture.Unload();
+	rockTexture.Unload();
+	heightMap.Unload();
+	sandTexture.Unload();
+	waterTexture.Unload();
+	waterShader.UnLoad();
+	waterMesh.Unload();
 	//...
 }
 
 void Game::initializeGame()
 {
 	updateTimer = new Timer();
-
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	if (!PassThrough.Load("./Assets/Shaders/PassThrough.vert", "./Assets/Shaders/PassThrough.frag"))
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+
+	if (!PassThrough.Load("./Assets/Shaders/Terrain.vert", "./Assets/Shaders/Terrain.frag"))
 	{
 		std::cout << "Shaders failed to initialize. \n" << std::endl;
 		system("pause");
 		exit(0);
 	}
 
+	if (!waterShader.Load("./Assets/Shaders/Water.vert", "./Assets/Shaders/Water.frag"))
+	{
+		std::cout << "Shaders failed to initialize. \n" << std::endl;
+		system("pause");
+		exit(0);
+	}
+
+
 	if (!gameMesh.LoadFromFile("./Assets/Models/Plane.obj"))
+	{
+		std::cout << "Model failed to load" << std::endl;
+		system("pause");
+		exit(0);
+	}
+
+	if (!waterMesh.LoadFromFile("./Assets/Models/Plane.obj"))
 	{
 		std::cout << "Model failed to load" << std::endl;
 		system("pause");
@@ -41,7 +64,7 @@ void Game::initializeGame()
 		exit(0);
 	}
 
-	if (!heightMap.Load("./Assets/Textures/terrain.png"))
+	if (!heightMap.Load("./Assets/Textures/_heightmap.jpg"))
 	{
 		system("pause");
 		exit(0);
@@ -68,8 +91,9 @@ void Game::initializeGame()
 	CameraTransform.RotateX(-45.0f);
 	CameraTransform.RotateY(45.0f);
 	//CameraTransform.RotateZ(45.0f);
-	CameraTransform.Translate(vec3(1.0f,1.5f,1.0f));
+	CameraTransform.Translate(vec3(1.0f,2.0f,1.0f));
 	CameraProjection = mat4::PerspectiveProjection(60.0f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,1.0f, 10000.0f);
+	waterTransform.Translate(vec3(0.0f, 0.345f, 0.0f));
 
 	//...
 }
@@ -81,7 +105,7 @@ void Game::update()
 
 	float deltaTime = updateTimer->getElapsedTimeSeconds();
 	TotalGameTime += deltaTime;
-
+	//planeTransform.RotateY(deltaTime*45.0f/2.0f);
 	//...
 	postProcessing();
 }
@@ -92,7 +116,6 @@ void Game::draw(Mesh* meshToDraw)
 	glDrawArrays(GL_TRIANGLES, 0, meshToDraw->GetNumVertices());
 	glBindVertexArray(0);
 
-	glutSwapBuffers();
 }
 
 void Game::postProcessing()
@@ -115,9 +138,6 @@ void Game::postProcessing()
 	glActiveTexture(GL_TEXTURE2);
 	rockTexture.Bind();
 	
-	glActiveTexture(GL_TEXTURE3);
-	waterTexture.Bind();
-	
 	glActiveTexture(GL_TEXTURE4);
 	sandTexture.Bind();
 
@@ -129,12 +149,23 @@ void Game::postProcessing()
 	sandTexture.UnBind();
 	PassThrough.UnBind();
 
-	//water.bind()
-	///send uniforms
 
-	//draw(plane);
-
+	waterShader.Bind();
+	waterShader.SendUniformMat4("uModel", waterTransform.data, true);
+	waterShader.SendUniformMat4("uView", CameraTransform.GetInverse().data, true);
+	waterShader.SendUniformMat4("uProj", CameraProjection.data, true);
+	waterShader.SendUniform("u_time", TotalGameTime);
+	
+	glActiveTexture(GL_TEXTURE5);
+	waterTexture.Bind();
+	
+	draw(&waterMesh);
+	waterShader.UnBind();
+	waterTexture.UnBind();
 	//water.unbind();
+
+	glutSwapBuffers();
+
 }
 
 void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)

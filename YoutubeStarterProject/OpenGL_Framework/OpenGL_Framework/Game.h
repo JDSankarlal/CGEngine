@@ -31,7 +31,9 @@ public:
 	Timer *updateTimer	= nullptr;
 	float TotalGameTime = 0.0f;
 	Mesh gameMesh;
+	Mesh waterMesh;
 	ShaderProgram PassThrough;
+	ShaderProgram waterShader;
 	Texture grassTexture;
 	Texture sandTexture;
 	Texture rockTexture;
@@ -40,6 +42,8 @@ public:
 	mat4 CameraTransform;
 	mat4 CameraProjection;
 	mat4 planeTransform;
+	mat4 waterTransform;
+
 
 private:
 
